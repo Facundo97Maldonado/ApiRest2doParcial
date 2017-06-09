@@ -24,7 +24,7 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     //Agrego un usuario
-    @RequestMapping(value = "/agregarUsuario", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/usuarios/agregar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity agregarUsuario(@RequestBody Usuario usuario){
         try {
             usuarioService.agregarUsuario(usuario);
@@ -34,18 +34,18 @@ public class UsuarioController {
         }
     }
 
-    //Listo un usuario
-    @RequestMapping(value = "/usuario/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<Usuario> getUsuario(@PathVariable("id") int id){
-        if (usuarioService.listarUsuario(id) != null){
-            return new ResponseEntity<Usuario>(usuarioService.listarUsuario(id), HttpStatus.OK);
+    //Listo un usuario por nombre
+    @RequestMapping(value = "/usuarios/buscar", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<Usuario> getUsuarioByName(@RequestParam("nombre") String nombre){
+        if (usuarioService.listarUsuario(nombre) != null){
+            return new ResponseEntity<Usuario>(usuarioService.listarUsuario(nombre), HttpStatus.OK);
         }else{
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     //Listo muchos usuarios
-    @RequestMapping(value = "/usuarios/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/usuarios/listar", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Usuario>> getUsuarios(){
         if (this.usuarioService.listarUsuarios().size() > 0){
             return new ResponseEntity<List<Usuario>>(this.usuarioService.listarUsuarios(), HttpStatus.OK);
@@ -55,7 +55,7 @@ public class UsuarioController {
     }
 
     //Borro un usuario
-    @RequestMapping(value = "/eliminarUsuario", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/usuarios/eliminar", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity borrarUsuario(@RequestHeader int id){
         try{
             usuarioService.eliminarUsuario(id);

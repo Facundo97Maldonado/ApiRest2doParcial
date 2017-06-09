@@ -17,14 +17,18 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping(
+        value = "/api",
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class MensajeController {
 
     @Autowired
     MensajeService mensajeService;
 
 
-    //Mostrar todos los mensajes = "BANDEJA DE ENTRADA o INBOX"
-    @RequestMapping(value = "/inbox/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    //Mostrar mensajes inbox
+    @RequestMapping(value = "/mensajes/inbox", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Mensaje>> getBandejaEntrada() throws SQLException {
 
         if (this.mensajeService.getInbox().size() > 0) {
@@ -34,8 +38,20 @@ public class MensajeController {
         }
     }
 
+
+    //Mostrar mensajes outbox
+    @RequestMapping(value = "/mensajes/outbox", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<List<Mensaje>> getBandejaSalida() throws SQLException {
+
+        if (this.mensajeService.getOutbox().size() > 0) {
+            return new ResponseEntity<List<Mensaje>>(this.mensajeService.getInbox(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<List<Mensaje>>(HttpStatus.NO_CONTENT);
+        }
+    }
+
     //Mostrar mensajes en la bandeja de borrados
-    @RequestMapping(value = "/mensajesBorrados/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/mensajes/borrados", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<List<Mensaje>> getMensajesEliminados() throws SQLException {
         if (this.mensajeService.getTrash().size() > 0){
             return new ResponseEntity<List<Mensaje>>(this.mensajeService.getTrash(), HttpStatus.OK);
@@ -45,7 +61,7 @@ public class MensajeController {
     }
 
     //Borrar un mensaje
-    @RequestMapping(value = "/eliminarMensaje", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/mensajes/eliminar", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity borrarMensaje(@RequestHeader int id){
         try{
             mensajeService.borrarMensaje(id);

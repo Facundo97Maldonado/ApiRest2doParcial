@@ -27,8 +27,12 @@ public class MensajeService {
         return this.mensajeDao.getAll();
     }
 
+    public List<Mensaje> getOutbox() throws SQLException {
+        return this.mensajeDao.getEnviados();
+    }
+
     public List<Mensaje> getTrash() throws SQLException {
-        return this.mensajeDao.getMensajesTrash();
+        return this.mensajeDao.getTrash();
     }
 
     public void agregarMensaje(Mensaje mensaje){

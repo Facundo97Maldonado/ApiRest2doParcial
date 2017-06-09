@@ -82,6 +82,36 @@ public class UsuarioDao extends FatherDao<Usuario>{
         return null;
     }
 
+    //Mostrar un usuario, mediante id
+    public Usuario getByName(String nombre){
+        String sql = "SELECT * FROM usuarios " +
+                "INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
+                " INNER JOIN provincias ON provincias.id = usuarios.id_provincia" +
+                " INNER JOIN paises ON paises.id = usuarios.id_pais " +
+                " WHERE usuarios.nombre LIKE ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery(sql);
+            if (rs.next()){
+                Ciudad ciudad = new Ciudad(rs.getInt("ciudades.id"),rs.getString("ciudades.nombre"));
+
+                Provincia provincia = new Provincia(rs.getInt("provincias.id"),rs.getString("provincias.nombre"));
+
+                Pais pais = new Pais(rs.getInt("paises.id"),rs.getString("paises.nombre"));
+                Usuario usuario = new Usuario(rs.getString("nombre"),rs.getString("apellido"),
+                        rs.getString("direccion"), rs.getString("telefono"),
+                        ciudad, provincia, pais, rs.getString("email"),
+                        rs.getString("username"), rs.getString("contrasena"));
+                usuario.setId(rs.getInt("usuarios.id"));
+                return usuario;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     //Mostrar todos los usuarios
     public List<Usuario> getAll(){
         String sql = "SELECT * FROM usuarios " +

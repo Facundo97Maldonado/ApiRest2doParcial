@@ -26,9 +26,9 @@ public class UsuarioService {
         this.usuarioDao.insert(usuario);
     }
 
-    //Listar un usuario
-    public Usuario listarUsuario(int id){
-        return this.usuarioDao.getById(id);
+    //Listar un usuario por nombre
+    public Usuario listarUsuario(String nombre){
+        return this.usuarioDao.getByName(nombre);
     }
 
     //Listar todos los usuarios

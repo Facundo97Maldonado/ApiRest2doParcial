@@ -60,10 +60,12 @@ public class MensajeDao extends FatherDao<Mensaje>{
     }
 
     public List<Mensaje> getAll() {
-        String sql = "SELECT * FROM mensajes_bandeja_entrada";
+        String sql = "SELECT * FROM mensajes_bandeja_entrada" +
+                     "WHERE recibidos = ?";
         try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setBoolean(1,true);
+            ResultSet rs = ps.executeQuery(sql);
             List<Mensaje> mensajesInbox = new ArrayList<Mensaje>();
             while (rs.next()) {
                 Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_id"),
@@ -79,7 +81,29 @@ public class MensajeDao extends FatherDao<Mensaje>{
         }
     }
 
-    public List<Mensaje> getMensajesTrash(){
+    public List<Mensaje> getEnviados() {
+        String sql = "SELECT * FROM mensajes_bandeja_entrada" +
+                     "WHERE enviados = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setBoolean(1,true);
+            ResultSet rs = ps.executeQuery(sql);
+            List<Mensaje> mensajesInbox = new ArrayList<Mensaje>();
+            while (rs.next()) {
+                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_id"),
+                        (Usuario) rs.getObject("recipiente_id"),
+                        rs.getString("asunto"), rs.getString("contenido_mensaje"),
+                        rs.getTimestamp("fecha"));
+                mensajesInbox.add(mensaje);
+            }
+            return mensajesInbox;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Mensaje> getTrash(){
         String sql = "SELECT * FROM mensajes_eliminados";
         try {
             Statement st = conn.createStatement();
