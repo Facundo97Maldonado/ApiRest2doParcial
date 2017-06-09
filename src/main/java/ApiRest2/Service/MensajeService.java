@@ -24,7 +24,7 @@ public class MensajeService {
     }
 
     public List<Mensaje> getInbox() throws SQLException {
-        return this.mensajeDao.getMensajesInbox();
+        return this.mensajeDao.getAll();
     }
 
     public List<Mensaje> getTrash() throws SQLException {
@@ -32,7 +32,7 @@ public class MensajeService {
     }
 
     public void agregarMensaje(Mensaje mensaje){
-        this.mensajeDao.sendMensaje(mensaje);
+        this.mensajeDao.insert(mensaje);
     }
 
     public void borrarMensaje(int id) throws SQLException {

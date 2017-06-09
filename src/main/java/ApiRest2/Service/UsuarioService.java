@@ -13,27 +13,27 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
+    @Autowired
     UsuarioDao usuarioDao;
 
-    @Autowired
-    public UsuarioService(UsuarioDao usuarioDao){
-        this.usuarioDao = usuarioDao;
+    public UsuarioService(UsuarioDao dao){
+        this.usuarioDao = dao;
     }
 
     //Agregar un usuario
     public void agregarUsuario(Usuario usuario){
 
-        this.usuarioDao.addUser(usuario);
+        this.usuarioDao.insert(usuario);
     }
 
     //Listar un usuario
     public Usuario listarUsuario(int id){
-        return this.usuarioDao.listOneUser(id);
+        return this.usuarioDao.getById(id);
     }
 
     //Listar todos los usuarios
     public List<Usuario> listarUsuarios(){
-        return this.usuarioDao.listUsers();
+        return this.usuarioDao.getAll();
     }
 
 

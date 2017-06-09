@@ -4,6 +4,8 @@ import ApiRest2.Entities.Ciudad;
 import ApiRest2.Entities.Pais;
 import ApiRest2.Entities.Provincia;
 import ApiRest2.Entities.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -17,11 +19,17 @@ import java.util.List;
  * Created by Facundo on 05/06/2017.
  */
 @Repository
-public class UsuarioDao extends FatherDao{
+public class UsuarioDao extends FatherDao<Usuario>{
 
+    @Autowired
+    public UsuarioDao(@Value("${db.host}") String host, @Value("${db.port}")String port,
+                      @Value("${db.name}") String dbName, @Value("${db.username}")String dbUserName,
+                      @Value("${db.pw}")String dbPass){
+        super(host, port, dbName, dbUserName, dbPass);
+    }
 
     //Agregar un usuario
-    public void addUser(Usuario usuario){
+    public void insert(Usuario usuario){
         // Aca se manda el id_ciudad, entonces...*LEER COMENT linea 12 Usuario   //Por esto//
         try {
             PreparedStatement ps =  conn.prepareStatement("INSERT INTO usuarios (nombre," +
@@ -46,7 +54,7 @@ public class UsuarioDao extends FatherDao{
     }
 
     //Mostrar un usuario, mediante id
-    public Usuario listOneUser(int id){
+    public Usuario getById(int id){
         String sql = "SELECT * FROM usuarios " +
                 "INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
                 " INNER JOIN provincias ON provincias.id = usuarios.id_provincia" +
@@ -75,7 +83,7 @@ public class UsuarioDao extends FatherDao{
     }
 
     //Mostrar todos los usuarios
-    public List<Usuario> listUsers(){
+    public List<Usuario> getAll(){
         String sql = "SELECT * FROM usuarios " +
                 "INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
                 " INNER JOIN provincias ON provincias.id = usuarios.id_provincia" +

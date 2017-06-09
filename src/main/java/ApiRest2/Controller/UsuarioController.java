@@ -14,6 +14,10 @@ import java.util.List;
  * Created by Facundo on 06/06/2017.
  */
 @RestController
+@RequestMapping(
+        value = "/api",
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class UsuarioController {
 
     @Autowired
