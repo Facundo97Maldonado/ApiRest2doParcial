@@ -3,6 +3,7 @@ package ApiRest2.Util;
 import ApiRest2.Entities.Usuario;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class SessionData {
     @Value("${session.expiration}")
     int expirationTime;
 
+    @Autowired
+    AuthenticationData aData;
 
     public SessionData() {
         this.sessionData = new HashMap<String, AuthenticationData>();
@@ -30,7 +33,7 @@ public class SessionData {
 
     public String addSession(Usuario usuario) {
         String sessionId = UUID.randomUUID().toString();
-        AuthenticationData aData = new AuthenticationData();
+        //AuthenticationData aData = new AuthenticationData();
         aData.setUsuario(usuario);
         aData.setLastAction(new DateTime());
         this.sessionData.put(sessionId, aData);
@@ -51,7 +54,7 @@ public class SessionData {
         }
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 100000)
     public void checkSessions() {
         System.out.println("Checking sessions");
         Set<String> sessionsId = this.sessionData.keySet();

@@ -25,12 +25,17 @@ public class UsuarioDao extends FatherDao<Usuario>{
     public UsuarioDao(@Value("${db.host}") String host, @Value("${db.port}")String port,
                       @Value("${db.name}") String dbName, @Value("${db.username}")String dbUserName,
                       @Value("${db.pw}")String dbPass){
+
         super(host, port, dbName, dbUserName, dbPass);
     }
+    /*@Autowired
+    public UsuarioDao(){
+        super();
+    }*/
+
 
     //Agregar un usuario
     public void insert(Usuario usuario){
-        // Aca se manda el id_ciudad, entonces...*LEER COMENT linea 12 Usuario   //Por esto//
         try {
             PreparedStatement ps =  conn.prepareStatement("INSERT INTO usuarios (nombre," +
                     " apellido, direccion, telefono, id_ciudad, id_provincia, id_pais, " +
@@ -82,7 +87,7 @@ public class UsuarioDao extends FatherDao<Usuario>{
         return null;
     }
 
-    //Mostrar un usuario, mediante id
+    //Mostrar un usuario, mediante nombre
     public Usuario getByName(String nombre){
         String sql = "SELECT * FROM usuarios " +
                 "INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
@@ -92,7 +97,7 @@ public class UsuarioDao extends FatherDao<Usuario>{
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, nombre);
-            ResultSet rs = ps.executeQuery(sql);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()){
                 Ciudad ciudad = new Ciudad(rs.getInt("ciudades.id"),rs.getString("ciudades.nombre"));
 
@@ -115,7 +120,7 @@ public class UsuarioDao extends FatherDao<Usuario>{
     //Mostrar todos los usuarios
     public List<Usuario> getAll(){
         String sql = "SELECT * FROM usuarios " +
-                "INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
+                " INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
                 " INNER JOIN provincias ON provincias.id = usuarios.id_provincia" +
                 " INNER JOIN paises ON paises.id = usuarios.id_pais";
         try {
@@ -156,4 +161,36 @@ public class UsuarioDao extends FatherDao<Usuario>{
 
     }
 
+    public Usuario getToLogin(String username, String password){
+        String sql = "SELECT * FROM usuarios" +
+                " INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
+                " INNER JOIN provincias ON provincias.id = usuarios.id_provincia" +
+                " INNER JOIN paises ON paises.id = usuarios.id_pais" +
+                " WHERE usuarios.username = ? AND " +
+                " usuarios.contrasena = ?";
+        try{
+            System.out.println(conn);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,username);
+            ps.setString(2,password);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Ciudad ciudad = new Ciudad(rs.getInt("ciudades.id"),rs.getString("ciudades.nombre"));
+
+                Provincia provincia = new Provincia(rs.getInt("provincias.id"),rs.getString("provincias.nombre"));
+
+                Pais pais = new Pais(rs.getInt("paises.id"),rs.getString("paises.nombre"));
+
+                Usuario user = new Usuario(rs.getString("nombre"), rs.getString("apellido"),
+                        rs.getString("direccion"), rs.getString("telefono"), ciudad,
+                        provincia, pais, rs.getString("email"), rs.getString("username")
+                        ,rs.getString("contrasena"));
+
+                return user;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

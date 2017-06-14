@@ -2,10 +2,12 @@ package ApiRest2.Util;
 
 import ApiRest2.Entities.Usuario;
 import org.joda.time.DateTime;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Facundo on 08/06/2017.
  */
+@Service
 public class AuthenticationData {
 
     private Usuario usuario;

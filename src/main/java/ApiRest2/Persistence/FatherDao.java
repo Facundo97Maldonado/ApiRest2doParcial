@@ -2,9 +2,7 @@ package ApiRest2.Persistence;
 
 
 import com.mysql.jdbc.Connection;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,9 +13,8 @@ import java.util.List;
 @Repository
 public abstract class FatherDao<T> {
 
-    protected Connection conn;
-    private static FatherDao instance;
 
+    protected Connection conn;
 
     public abstract T getById(int id);
 
@@ -25,6 +22,9 @@ public abstract class FatherDao<T> {
 
     public abstract void insert(T value);
 
+    public FatherDao(){
+
+    }
 
     public FatherDao(String host, String port, String dbName, String dbUserName, String dbPass) {
         try{
@@ -33,9 +33,14 @@ public abstract class FatherDao<T> {
             e.printStackTrace();
         }
         try{
+            Class.forName("com.mysql.jdbc.Driver");
+            //System.out.println(host + "---" + port + "----" + dbName + "---" + dbUserName + "---" + dbPass);
+            System.out.println("jdbc:mysql://" + host + ":" + port + "/" + dbName + "," + dbUserName +"," + dbPass);
             this.conn = (Connection) DriverManager.getConnection
-                    ("jdbc:mysql://" + host + ":" + port + "/" + dbName + "," + dbUserName +"," + dbPass);
+                    ("jdbc:mysql://" + host + ":" + port + "/" + dbName,  dbUserName, dbPass);
         }catch(SQLException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

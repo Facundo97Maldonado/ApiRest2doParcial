@@ -2,6 +2,8 @@ package ApiRest2.Persistence;
 
 import ApiRest2.Entities.Mensaje;
 import ApiRest2.Entities.Usuario;
+import ApiRest2.Util.AuthenticationData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +17,10 @@ import java.util.List;
 @Repository
 public class MensajeDao extends FatherDao<Mensaje>{
 
+    @Autowired
+    private AuthenticationData aData;
 
+    @Autowired
     public MensajeDao(@Value("${db.host}") String host, @Value("${db.port}")String port,
                       @Value("${db.name}") String dbName, @Value("${db.username}")String dbUserName,
                       @Value("${db.pw}")String dbPass) {
@@ -24,11 +29,11 @@ public class MensajeDao extends FatherDao<Mensaje>{
 
     public void insert(Mensaje mensaje){
         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO mensajes_bandeja_entrada " +
-                    "(remitente_id, recipiente_id, asunto, " +
-                    "contenido_mensaje, fecha) VALUES  ( ?, ?, ?, ?, ?)");
-            ps.setInt(1,mensaje.getRemitente().getId() );
-            ps.setInt(2,mensaje.getRecipiente().getId());
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO mensajes" +
+            " (remitente_email, recipiente_email, asunto, contenido_mensaje, fecha) VALUES  ( ?, ?, ?, ?, ?)");
+
+            ps.setString(1,mensaje.getRemitente().getEmail());
+            ps.setString(2,mensaje.getRecipiente().getEmail());
             ps.setString(3,mensaje.getAsunto());
             ps.setString(4,mensaje.getContenido());
             ps.setTimestamp(5,mensaje.getFecha());
@@ -42,8 +47,9 @@ public class MensajeDao extends FatherDao<Mensaje>{
     public Mensaje getById(int id){
         String sql = "SELECT * FROM mensajes where id = ?";
         try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_id"),
                         (Usuario) rs.getObject("recipiente_id"),
@@ -60,16 +66,16 @@ public class MensajeDao extends FatherDao<Mensaje>{
     }
 
     public List<Mensaje> getAll() {
-        String sql = "SELECT * FROM mensajes_bandeja_entrada" +
-                     "WHERE recibidos = ?";
+        String sql = "SELECT * FROM mensajes" +
+                " WHERE recipiente_email = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setBoolean(1,true);
-            ResultSet rs = ps.executeQuery(sql);
+            ps.setString(1, aData.getUsuario().getEmail());
+            ResultSet rs = ps.executeQuery();
             List<Mensaje> mensajesInbox = new ArrayList<Mensaje>();
             while (rs.next()) {
-                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_id"),
-                        (Usuario) rs.getObject("recipiente_id"),
+                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_email"),
+                        (Usuario) rs.getObject("recipiente_email"),
                         rs.getString("asunto"), rs.getString("contenido_mensaje"),
                         rs.getTimestamp("fecha"));
                 mensajesInbox.add(mensaje);
@@ -82,16 +88,16 @@ public class MensajeDao extends FatherDao<Mensaje>{
     }
 
     public List<Mensaje> getEnviados() {
-        String sql = "SELECT * FROM mensajes_bandeja_entrada" +
-                     "WHERE enviados = ?";
+        String sql = "SELECT * FROM mensajes" +
+                " WHERE remitente_email = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setBoolean(1,true);
-            ResultSet rs = ps.executeQuery(sql);
+            ps.setString(1, aData.getUsuario().getEmail());
+            ResultSet rs = ps.executeQuery();
             List<Mensaje> mensajesInbox = new ArrayList<Mensaje>();
             while (rs.next()) {
-                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_id"),
-                        (Usuario) rs.getObject("recipiente_id"),
+                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_email"),
+                        (Usuario) rs.getObject("recipiente_email"),
                         rs.getString("asunto"), rs.getString("contenido_mensaje"),
                         rs.getTimestamp("fecha"));
                 mensajesInbox.add(mensaje);
@@ -110,8 +116,8 @@ public class MensajeDao extends FatherDao<Mensaje>{
             ResultSet rs = st.executeQuery(sql);
             List<Mensaje> mensajesTrash = new ArrayList<Mensaje>();
             while (rs.next()) {
-                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_id"),
-                        (Usuario) rs.getObject("recipiente_id"),
+                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_email"),
+                        (Usuario) rs.getObject("recipiente_email"),
                         rs.getString("asunto"), rs.getString("contenido_mensaje"),
                         rs.getTimestamp("fecha"));
                 mensajesTrash.add(mensaje);

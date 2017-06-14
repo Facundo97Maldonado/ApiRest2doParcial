@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class MensajeService {
 
+    @Autowired
     MensajeDao mensajeDao;
 
-    @Autowired
     public MensajeService(MensajeDao mensajeDao){
         this.mensajeDao = mensajeDao;
     }

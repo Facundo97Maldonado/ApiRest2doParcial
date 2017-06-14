@@ -11,6 +11,7 @@ C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Persisten
 C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Controller\MensajeController.java
 C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Entities\Mensaje.java
 C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Controller\UsuarioController.java
+C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Response\LoginResponseWrapper.java
 C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Persistence\UsuarioDao.java
 C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Entities\Pais.java
 C:\Users\Facundo\IdeaProjects\ApiRest2doParcial\src\main\java\ApiRest2\Util\SessionData.java

@@ -20,6 +20,11 @@ public class UsuarioService {
         this.usuarioDao = dao;
     }
 
+    //Login
+    public Usuario login(String nombreUsuario, String password) {
+        return usuarioDao.getToLogin(nombreUsuario,password);
+    }
+
     //Agregar un usuario
     public void agregarUsuario(Usuario usuario){
 
