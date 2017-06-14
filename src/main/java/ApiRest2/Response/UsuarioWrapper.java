@@ -1,4 +1,4 @@
-package ApiRest2.Wrapper;
+package ApiRest2.Response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -34,8 +34,6 @@ public abstract class FatherDao<T> {
         }
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            //System.out.println(host + "---" + port + "----" + dbName + "---" + dbUserName + "---" + dbPass);
-            System.out.println("jdbc:mysql://" + host + ":" + port + "/" + dbName + "," + dbUserName +"," + dbPass);
             this.conn = (Connection) DriverManager.getConnection
                     ("jdbc:mysql://" + host + ":" + port + "/" + dbName,  dbUserName, dbPass);
         }catch(SQLException e){

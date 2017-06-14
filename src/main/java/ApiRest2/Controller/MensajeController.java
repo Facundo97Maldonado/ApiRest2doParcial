@@ -1,6 +1,8 @@
 package ApiRest2.Controller;
 
+import ApiRest2.Converter.MensajeConverter;
 import ApiRest2.Entities.Mensaje;
+import ApiRest2.Response.MensajeWrapper;
 import ApiRest2.Service.MensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,39 +31,45 @@ public class MensajeController {
 
     //Mostrar mensajes inbox
     @RequestMapping(value = "/api/mensajes/inbox", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Mensaje>> getBandejaEntrada() throws SQLException {
+    public @ResponseBody ResponseEntity<List<MensajeWrapper>> getBandejaEntrada() throws SQLException {
 
         if (this.mensajeService.getInbox().size() > 0) {
-            return new ResponseEntity<List<Mensaje>>(this.mensajeService.getInbox(), HttpStatus.OK);
+            MensajeConverter conversor = new MensajeConverter();
+            List<MensajeWrapper> wrappers = conversor.convertirLista(this.mensajeService.getInbox());
+            return new ResponseEntity<List<MensajeWrapper>>(wrappers, HttpStatus.OK);
         }else {
-            return new ResponseEntity<List<Mensaje>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<List<MensajeWrapper>>(HttpStatus.NO_CONTENT);
         }
     }
 
 
     //Mostrar mensajes outbox
     @RequestMapping(value = "/api/mensajes/outbox", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Mensaje>> getBandejaSalida() throws SQLException {
+    public @ResponseBody ResponseEntity<List<MensajeWrapper>> getBandejaSalida() throws SQLException {
 
         if (this.mensajeService.getOutbox().size() > 0) {
-            return new ResponseEntity<List<Mensaje>>(this.mensajeService.getInbox(), HttpStatus.OK);
+            MensajeConverter conversor = new MensajeConverter();
+            List<MensajeWrapper> wrappers = conversor.convertirLista(this.mensajeService.getOutbox());
+            return new ResponseEntity<List<MensajeWrapper>>(wrappers, HttpStatus.OK);
         }else {
-            return new ResponseEntity<List<Mensaje>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<List<MensajeWrapper>>(HttpStatus.NO_CONTENT);
         }
     }
 
     //Mostrar mensajes en la bandeja de borrados
     @RequestMapping(value = "/api/mensajes/borrados", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<List<Mensaje>> getMensajesEliminados() throws SQLException {
+    public @ResponseBody ResponseEntity<List<MensajeWrapper>> getMensajesEliminados() throws SQLException {
         if (this.mensajeService.getTrash().size() > 0){
-            return new ResponseEntity<List<Mensaje>>(this.mensajeService.getTrash(), HttpStatus.OK);
+            MensajeConverter conversor = new MensajeConverter();
+            List<MensajeWrapper> wrappers = conversor.convertirLista(this.mensajeService.getTrash());
+            return new ResponseEntity<List<MensajeWrapper>>(wrappers, HttpStatus.OK);
         }else{
-            return new ResponseEntity<List<Mensaje>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<List<MensajeWrapper>>(HttpStatus.NO_CONTENT);
         }
     }
 
     //Borrar un mensaje
-    @RequestMapping(value = "/api/mensajes/eliminar", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/mensajes/", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity borrarMensaje(@RequestHeader int id){
         try{
             mensajeService.borrarMensaje(id);
@@ -72,7 +80,7 @@ public class MensajeController {
     }
 
     //Enviar un mensaje
-    @RequestMapping(value = "/api/mensajes/enviar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/mensajes/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity agregarMensaje(@RequestBody Mensaje mensaje){
         try {
             mensajeService.agregarMensaje(mensaje);

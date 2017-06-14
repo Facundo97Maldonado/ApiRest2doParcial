@@ -74,8 +74,11 @@ public class MensajeDao extends FatherDao<Mensaje>{
             ResultSet rs = ps.executeQuery();
             List<Mensaje> mensajesInbox = new ArrayList<Mensaje>();
             while (rs.next()) {
-                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_email"),
-                        (Usuario) rs.getObject("recipiente_email"),
+                Usuario userEmisor = new Usuario();
+                userEmisor.setEmail(rs.getString("remitente_email"));
+                Usuario userReceptor = new Usuario();
+                userReceptor.setEmail(rs.getString("recipiente_email"));
+                Mensaje mensaje = new Mensaje(userEmisor, userReceptor,
                         rs.getString("asunto"), rs.getString("contenido_mensaje"),
                         rs.getTimestamp("fecha"));
                 mensajesInbox.add(mensaje);
@@ -94,15 +97,18 @@ public class MensajeDao extends FatherDao<Mensaje>{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, aData.getUsuario().getEmail());
             ResultSet rs = ps.executeQuery();
-            List<Mensaje> mensajesInbox = new ArrayList<Mensaje>();
+            List<Mensaje> mensajesOutbox = new ArrayList<Mensaje>();
             while (rs.next()) {
-                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_email"),
-                        (Usuario) rs.getObject("recipiente_email"),
+                Usuario userEmisor = new Usuario();
+                userEmisor.setEmail(rs.getString("remitente_email"));
+                Usuario userReceptor = new Usuario();
+                userReceptor.setEmail(rs.getString("recipiente_email"));
+                Mensaje mensaje = new Mensaje(userEmisor, userReceptor,
                         rs.getString("asunto"), rs.getString("contenido_mensaje"),
                         rs.getTimestamp("fecha"));
-                mensajesInbox.add(mensaje);
+                mensajesOutbox.add(mensaje);
             }
-            return mensajesInbox;
+            return mensajesOutbox;
         }catch (SQLException e){
             e.printStackTrace();
             return null;

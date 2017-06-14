@@ -39,6 +39,7 @@ public class UsuarioTest extends TestCase {
 
     @Test
     public void testNombre(){
+
         assertEquals(usuario.getNombre(), "Nombre");
     }
     @Test
@@ -75,7 +76,7 @@ public class UsuarioTest extends TestCase {
     }
     @Test
     public void testContrasena() {
-        assertEquals(usuario.getContrasena(), "Contrasenae");
+        assertEquals(usuario.getContrasena(), "Contrasena");
     }
 
 
