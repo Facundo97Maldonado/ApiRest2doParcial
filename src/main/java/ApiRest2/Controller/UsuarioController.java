@@ -24,13 +24,19 @@ import java.util.List;
 )*/
 public class UsuarioController {
 
+    public UsuarioController(){
+
+    }
+
     @Autowired
     UsuarioService usuarioService;
 
     @Autowired
     SessionData sessionData;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<LoginResponseWrapper> login
             (@RequestParam("username") String username, @RequestParam("password") String pass){
         Usuario user = usuarioService.login(username, pass);
@@ -84,7 +90,7 @@ public class UsuarioController {
     }
 
     //Borro un usuario
-    @RequestMapping(value = "/api/usuarios/", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/usuarios/", method = RequestMethod.DELETE)
     public ResponseEntity borrarUsuario(@RequestHeader int id){
         try{
             usuarioService.eliminarUsuario(id);

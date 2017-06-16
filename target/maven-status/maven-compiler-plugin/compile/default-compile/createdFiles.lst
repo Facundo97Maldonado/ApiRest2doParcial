@@ -3,7 +3,6 @@ ApiRest2\Entities\Ciudad.class
 ApiRest2\Util\AuthenticationData.class
 ApiRest2\Service\UsuarioService.class
 ApiRest2\Response\LoginResponseWrapper.class
-ApiRest2\Wrapper\UsuarioWrapper.class
 ApiRest2\Controller\MensajeController.class
 ApiRest2\Converter\UsuarioConverter.class
 ApiRest2\Persistence\FatherDao.class

@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
+
     @Autowired
     UsuarioDao usuarioDao;
 
@@ -27,7 +28,6 @@ public class UsuarioService {
 
     //Agregar un usuario
     public void agregarUsuario(Usuario usuario){
-
         this.usuarioDao.insert(usuario);
     }
 

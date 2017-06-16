@@ -43,7 +43,7 @@ public class MensajeDao extends FatherDao<Mensaje>{
         }
     }
 
-    //AHORA NO SE USA ESTO
+    /*AHORA NO SE USA ESTO
     public Mensaje getById(int id){
         String sql = "SELECT * FROM mensajes where id = ?";
         try {
@@ -63,7 +63,7 @@ public class MensajeDao extends FatherDao<Mensaje>{
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     public List<Mensaje> getAll() {
         String sql = "SELECT * FROM mensajes" +

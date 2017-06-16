@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="1" ignored="0" total="11" passed="10">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Surefire suite" duration-ms="2406" started-at="2017-06-15T16:22:44Z" finished-at="2017-06-15T16:22:46Z">
+    <groups>
+    </groups>
+    <test name="Surefire test" duration-ms="2406" started-at="2017-06-15T16:22:44Z" finished-at="2017-06-15T16:22:46Z">
+      <class name="ApiRest2.AppTest">
+        <test-method status="PASS" signature="testApp()" name="testApp" duration-ms="32" started-at="2017-06-15T13:22:44Z" finished-at="2017-06-15T13:22:44Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testApp -->
+      </class> <!-- ApiRest2.AppTest -->
+      <class name="ApiRest2.Entities.UsuarioTest">
+        <test-method status="PASS" signature="testCiudad()" name="testCiudad" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCiudad -->
+        <test-method status="PASS" signature="testDireccion()" name="testDireccion" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDireccion -->
+        <test-method status="PASS" signature="testApellido()" name="testApellido" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testApellido -->
+        <test-method status="PASS" signature="testNombre()" name="testNombre" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testNombre -->
+        <test-method status="PASS" signature="testPais()" name="testPais" duration-ms="0" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testPais -->
+        <test-method status="PASS" signature="testContrasena()" name="testContrasena" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testContrasena -->
+        <test-method status="PASS" signature="testUsername()" name="testUsername" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testUsername -->
+        <test-method status="PASS" signature="testEmail()" name="testEmail" duration-ms="0" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testEmail -->
+        <test-method status="PASS" signature="testTelefono()" name="testTelefono" duration-ms="0" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testTelefono -->
+      </class> <!-- ApiRest2.Entities.UsuarioTest -->
+      <class name="ApiRest2.Controller.UsuarioControllerTest">
+        <test-method status="FAIL" signature="testDeleteUserOk() throws java.lang.Exception" name="testDeleteUserOk" duration-ms="1875" started-at="2017-06-15T13:22:44Z" finished-at="2017-06-15T13:22:46Z">
+          <exception class="java.lang.IllegalStateException">
+            <message>
+              <![CDATA[Failed to load ApplicationContext]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:124)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:83)
+	at org.springframework.boot.test.autoconfigure.AutoConfigureReportTestExecutionListener.prepareTestInstance(AutoConfigureReportTestExecutionListener.java:49)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:230)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:228)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:287)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:289)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:247)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:94)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:191)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+	at org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)
+	at org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)
+	at org.testng.TestRunner$1.run(TestRunner.java:667)
+	at org.testng.TestRunner.runJUnitWorkers(TestRunner.java:950)
+	at org.testng.TestRunner.privateRunJUnit(TestRunner.java:698)
+	at org.testng.TestRunner.run(TestRunner.java:599)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:380)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:375)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:340)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:289)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1301)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1226)
+	at org.testng.TestNG.runSuites(TestNG.java:1144)
+	at org.testng.TestNG.run(TestNG.java:1115)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:115)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:212)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:108)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:203)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)
+Caused by: org.springframework.context.ApplicationContextException: Unable to start embedded container; nested exception is org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.onRefresh(EmbeddedWebApplicationContext.java:137)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:535)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:369)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:313)
+	at org.springframework.boot.test.SpringApplicationContextLoader.loadContext(SpringApplicationContextLoader.java:103)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:98)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:116)
+	... 43 more
+Caused by: org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.getEmbeddedServletContainerFactory(EmbeddedWebApplicationContext.java:189)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.createEmbeddedServletContainer(EmbeddedWebApplicationContext.java:162)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.onRefresh(EmbeddedWebApplicationContext.java:134)
+	... 51 more
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.IllegalStateException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDeleteUserOk -->
+      </class> <!-- ApiRest2.Controller.UsuarioControllerTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

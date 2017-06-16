@@ -1,0 +1,21 @@
+{
+  "nombre": "Nombre",
+  "apellido": "Apellido",
+  "direccion": "Direccion",
+  "telefono": "Telefono",
+  "ciudad": {
+    "id": 1,
+    "nombre": "Nombre Ciudad"
+  },
+  "provincia": {
+    "id": 1,
+    "nombre": "Nombre Provincia"
+  },
+  "pais": {
+    "id": 1,
+    "nombre": "Nombre Pais"
+  },
+  "email": "email@email.com",
+  "username": "Username",
+  "contrasena": "Contrasena"
+}

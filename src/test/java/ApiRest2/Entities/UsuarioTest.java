@@ -37,6 +37,7 @@ public class UsuarioTest extends TestCase {
         usuario.setContrasena("Contrasena");
     }
 
+
     @Test
     public void testNombre(){
 

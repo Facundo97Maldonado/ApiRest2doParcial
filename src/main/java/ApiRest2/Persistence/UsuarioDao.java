@@ -58,7 +58,7 @@ public class UsuarioDao extends FatherDao<Usuario>{
 
     }
 
-    //Mostrar un usuario, mediante id
+    /*Mostrar un usuario, mediante id
     public Usuario getById(int id){
         String sql = "SELECT * FROM usuarios " +
                 "INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad" +
@@ -85,7 +85,7 @@ public class UsuarioDao extends FatherDao<Usuario>{
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     //Mostrar un usuario, mediante nombre
     public Usuario getByName(String nombre){
