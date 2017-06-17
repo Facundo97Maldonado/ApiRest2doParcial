@@ -50,6 +50,8 @@ public class MensajeControllerTest extends TestCase{
     private String sessionid;
     private Mensaje mensaje;
     private Usuario usuario;
+    private Usuario remitente;
+    private Usuario recipiente;
 
     @Before
     public void setUp() throws ParseException {
@@ -63,14 +65,16 @@ public class MensajeControllerTest extends TestCase{
 
 
         Ciudad ciudad = new Ciudad();
-        ciudad.setNombre("Nombre Ciudad");
+        ciudad.setId(1);
+        ciudad.setNombre("Belgrano");
         Provincia provincia = new Provincia();
-        provincia.setNombre("Nombre Provincia");
+        provincia.setId(1);
+        provincia.setNombre("Buenos Aires");
         Pais pais = new Pais();
-        pais.setNombre("Nombre Pais");
+        pais.setId(1);
+        pais.setNombre("Argentina");
 
         usuario = new Usuario();
-        usuario.setId(1);
         usuario.setNombre("Nombre");
         usuario.setApellido("Apellido");
         usuario.setDireccion("Direccion");
@@ -80,9 +84,9 @@ public class MensajeControllerTest extends TestCase{
         usuario.setPais(pais);
         usuario.setEmail("Email");
         usuario.setUserName("Username");
-        usuario.setContrasena("Contrasena");
+        usuario.setContrasena("testContransena");
 
-        Usuario remitente = new Usuario();
+        remitente = new Usuario();
         remitente.setNombre("Nombre");
         remitente.setApellido("Apellido");
         remitente.setDireccion("Direccion");
@@ -91,10 +95,10 @@ public class MensajeControllerTest extends TestCase{
         remitente.setProvincia(provincia);
         remitente.setPais(pais);
         remitente.setEmail("facumaldonado@gmail.com");
-        remitente.setUserName("RemitenteUsername");
-        remitente.setContrasena("Contrasena");
+        remitente.setUserName("facu");
+        remitente.setContrasena("1234");
 
-        Usuario recipiente = new Usuario();
+        recipiente = new Usuario();
         recipiente.setNombre("Nombre");
         recipiente.setApellido("Apellido");
         recipiente.setDireccion("Direccion");
@@ -103,8 +107,8 @@ public class MensajeControllerTest extends TestCase{
         recipiente.setProvincia(provincia);
         recipiente.setPais(pais);
         recipiente.setEmail("manpower@gmail.com");
-        recipiente.setUserName("RecipienteUsername");
-        recipiente.setContrasena("Contrasena");
+        recipiente.setUserName("amtheman");
+        recipiente.setContrasena("manman");
 
         mensaje = new Mensaje();
         mensaje.setId(1);
@@ -114,7 +118,7 @@ public class MensajeControllerTest extends TestCase{
         mensaje.setContenido("Contenido");
         mensaje.setFecha(new Timestamp(myTime));
 
-        this.sessionid = this.sessionData.addSession(usuario);
+        this.sessionid = this.sessionData.addSession(remitente);
 
     }
 
@@ -129,8 +133,8 @@ public class MensajeControllerTest extends TestCase{
                 get("/api/mensajes/inbox")
                     .header("sessionid", this.sessionid)
         )
-                .andExpect(status().isOk());
-
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
     @Test
@@ -139,7 +143,9 @@ public class MensajeControllerTest extends TestCase{
                 get("/api/mensajes/outbox")
                         .header("sessionid", this.sessionid)
         )
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
 
     }
 
@@ -149,7 +155,8 @@ public class MensajeControllerTest extends TestCase{
                 get("/api/mensajes/borrados")
                         .header("sessionid", this.sessionid)
         )
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 
     }
 

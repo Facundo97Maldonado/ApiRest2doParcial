@@ -122,8 +122,11 @@ public class MensajeDao extends FatherDao<Mensaje>{
             ResultSet rs = st.executeQuery(sql);
             List<Mensaje> mensajesTrash = new ArrayList<Mensaje>();
             while (rs.next()) {
-                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_email"),
-                        (Usuario) rs.getObject("recipiente_email"),
+                Usuario userEmisor = new Usuario();
+                userEmisor.setEmail(rs.getString("remitente_email"));
+                Usuario userReceptor = new Usuario();
+                userReceptor.setEmail(rs.getString("recipiente_email"));
+                Mensaje mensaje = new Mensaje(userEmisor, userReceptor,
                         rs.getString("asunto"), rs.getString("contenido_mensaje"),
                         rs.getTimestamp("fecha"));
                 mensajesTrash.add(mensaje);

@@ -159,6 +159,16 @@ public class UsuarioControllerTest extends TestCase{
     }
 
     @Test
+    public void testListarUsuariosByNameNotFound() throws Exception{
+        mockMvc.perform(
+                get("/api/usuarios")
+                        .header("sessionid", this.sessionid)
+                        .param("nombre", "penene")
+        )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void testDeleteUserOk() throws Exception{
 
         mockMvc.perform(delete
@@ -169,6 +179,5 @@ public class UsuarioControllerTest extends TestCase{
                             .andExpect(status().isOk());
 
     }
-
 
 }
