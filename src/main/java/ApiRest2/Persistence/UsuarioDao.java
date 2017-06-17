@@ -28,18 +28,13 @@ public class UsuarioDao extends FatherDao<Usuario>{
 
         super(host, port, dbName, dbUserName, dbPass);
     }
-    /*@Autowired
-    public UsuarioDao(){
-        super();
-    }*/
-
 
     //Agregar un usuario
     public void insert(Usuario usuario){
         try {
             PreparedStatement ps =  conn.prepareStatement("INSERT INTO usuarios (nombre," +
-                    " apellido, direccion, telefono, id_ciudad, id_provincia, id_pais, " +
-                    "email, username, contrasena) values ( ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
+                    " apellido, direccion, telefono, id_ciudad, id_provincia, id_pais," +
+                    " email, username, contrasena) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
             ps.setString(1,usuario.getNombre());
             ps.setString(2,usuario.getApellido());
             ps.setString(3,usuario.getDireccion());

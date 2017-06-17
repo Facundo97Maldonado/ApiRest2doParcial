@@ -136,7 +136,7 @@ public class MensajeDao extends FatherDao<Mensaje>{
     }
 
     public void deleteMensaje(int id) throws SQLException{
-        String sql = "DELETE FROM mensajes_bandeja_entrada WHERE id = ?";
+        String sql = "DELETE FROM mensajes WHERE id = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
         ps.execute();

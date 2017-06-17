@@ -5,17 +5,17 @@
   "telefono": "Telefono",
   "ciudad": {
     "id": 1,
-    "nombre": "Nombre Ciudad"
+    "nombre": "Belgrano"
   },
   "provincia": {
     "id": 1,
-    "nombre": "Nombre Provincia"
+    "nombre": "Buenos Aires"
   },
   "pais": {
     "id": 1,
-    "nombre": "Nombre Pais"
+    "nombre": "Argentina"
   },
   "email": "email@email.com",
-  "username": "Username",
-  "contrasena": "Contrasena"
+  "username": "testUsername123",
+  "contrasena": "testContransena"
 }

@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UsuarioWrapper  {
 
     @JsonProperty
-    int id;
-    @JsonProperty
     String nombre;
     @JsonProperty
     String apellido;
@@ -18,18 +16,11 @@ public class UsuarioWrapper  {
     @JsonProperty
     String username;
 
-    @JsonProperty("NombreyApellido")
+    @JsonProperty("Nombre y Apellido")
     public String getNameandSurname(){
         return this.nombre + " " + this.apellido;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;

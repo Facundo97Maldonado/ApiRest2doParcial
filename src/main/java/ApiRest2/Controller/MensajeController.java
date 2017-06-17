@@ -19,10 +19,6 @@ import java.util.List;
  */
 
 @RestController
-/*@RequestMapping(
-        value = "/api",
-        produces = MediaType.APPLICATION_JSON_VALUE
-)*/
 public class MensajeController {
 
     @Autowired
@@ -69,7 +65,7 @@ public class MensajeController {
     }
 
     //Borrar un mensaje
-    @RequestMapping(value = "/api/mensajes/", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/mensajes/", method = RequestMethod.DELETE)
     public ResponseEntity borrarMensaje(@RequestHeader int id){
         try{
             mensajeService.borrarMensaje(id);

@@ -28,8 +28,7 @@ public class UsuarioConverter {
 
     public List<UsuarioWrapper> convertirLista(List<Usuario> usuarios){
         List<UsuarioWrapper> usuariosWrappers = new ArrayList<UsuarioWrapper>();
-        for (Usuario user:
-             usuarios) {
+        for (Usuario user: usuarios) {
             UsuarioWrapper userWrapper = this.convertir(user);
             usuariosWrappers.add(userWrapper);
         }
