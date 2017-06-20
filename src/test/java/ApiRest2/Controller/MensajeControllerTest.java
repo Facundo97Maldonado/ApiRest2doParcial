@@ -2,6 +2,7 @@ package ApiRest2.Controller;
 
 import ApiRest2.App;
 import ApiRest2.Entities.*;
+import ApiRest2.Response.LoginResponseWrapper;
 import ApiRest2.Util.SessionData;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -47,7 +48,7 @@ public class MensajeControllerTest extends TestCase{
     private WebApplicationContext webApplicationContext;
 
     private MockMvc mockMvc;
-    private String sessionid;
+    private LoginResponseWrapper loginResponseWrapper;
     private Mensaje mensaje;
     private Usuario usuario;
     private Usuario remitente;
@@ -118,59 +119,76 @@ public class MensajeControllerTest extends TestCase{
         mensaje.setContenido("Contenido");
         mensaje.setFecha(new Timestamp(myTime));
 
-        this.sessionid = this.sessionData.addSession(remitente);
-
+        this.loginResponseWrapper = new LoginResponseWrapper();
+        this.loginResponseWrapper.setSessionId(this.sessionData.addSession(remitente));
     }
 
     @After
     public void tearDown() {
-        this.sessionData.removeSession(this.sessionid);
+        this.sessionData.removeSession(this.loginResponseWrapper.getSessionId());
     }
 
     @Test
     public void testGetInboxOk() throws Exception{
         mockMvc.perform(
                 get("/api/mensajes/inbox")
-                    .header("sessionid", this.sessionid)
+                    .header("sessionid", this.loginResponseWrapper.getSessionId())
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+    }
+
+    @Test
+    public void testGetInboxNoContent() throws Exception{
+        this.loginResponseWrapper.setSessionId(this.sessionData.addSession(this.usuario));
+        mockMvc.perform(
+                get("/api/mensajes/inbox")
+                        .header("sessionid", this.loginResponseWrapper.getSessionId())
+        )
+                .andExpect(status().isNoContent());
     }
 
     @Test
     public void testGetOutboxOk() throws Exception {
         mockMvc.perform(
                 get("/api/mensajes/outbox")
-                        .header("sessionid", this.sessionid)
+                        .header("sessionid", this.loginResponseWrapper.getSessionId())
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+    }
 
-
+    @Test
+    public void testGetOutboxNoContent() throws Exception {
+        this.loginResponseWrapper.setSessionId(this.sessionData.addSession(this.usuario));
+        mockMvc.perform(
+                get("/api/mensajes/outbox")
+                        .header("sessionid", this.loginResponseWrapper.getSessionId())
+        )
+                .andExpect(status().isNoContent());
     }
 
     @Test
     public void testGetTrashOk() throws Exception {
         mockMvc.perform(
                 get("/api/mensajes/borrados")
-                        .header("sessionid", this.sessionid)
+                        .header("sessionid", this.loginResponseWrapper.getSessionId())
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-
     }
 
-    //Este solo funca
     @Test
     public void testBorrarMensajeOk() throws Exception {
         mockMvc.perform((
                 delete("/api/mensajes/")
-                    .header("sessionid", this.sessionid)
+                    .header("sessionid", this.loginResponseWrapper.getSessionId())
                     .header("id", mensaje.getId())
                 )
         )
                 .andExpect(status().isOk());
     }
+
 
     @Test
     public void testEnviarMensajeOk() throws Exception {
@@ -179,7 +197,7 @@ public class MensajeControllerTest extends TestCase{
 
         mockMvc.perform(
                 post("/api/mensajes/")
-                        .header("sessionid", this.sessionid)
+                        .header("sessionid", this.loginResponseWrapper.getSessionId())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(json)
         )

@@ -180,7 +180,7 @@ public class UsuarioDao extends FatherDao<Usuario>{
                         rs.getString("direccion"), rs.getString("telefono"), ciudad,
                         provincia, pais, rs.getString("email"), rs.getString("username")
                         ,rs.getString("contrasena"));
-
+                user.setId(rs.getInt("id"));
                 return user;
             }
         }catch (SQLException e){

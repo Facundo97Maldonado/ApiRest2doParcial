@@ -20,6 +20,8 @@ public class MensajeConverter {
         MensajeWrapper mensajeWrapper = new MensajeWrapper();
         mensajeWrapper.setEmisor(mensaje.getRemitente().getEmail());
         mensajeWrapper.setReceptor(mensaje.getRecipiente().getEmail());
+        mensajeWrapper.setAsunto(mensaje.getAsunto());
+        mensajeWrapper.setContenido(mensaje.getContenido());
         mensajeWrapper.setFecha(mensaje.getFecha());
 
         return mensajeWrapper;
