@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad</OriginalElement>
+  <nodes>
+    <node x="50.0" y="738.0">c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.mensajes</node>
+    <node x="397.0" y="0.0">c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.mensajes_eliminados</node>
+    <node x="0.0" y="416.0">c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.usuarios</node>
+    <node x="80.0" y="270.0">c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.ciudades</node>
+    <node x="114.0" y="0.0">c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.paises</node>
+    <node x="26.75" y="124.0">c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.provincias</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.mensajes" target="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.usuarios">
+      <point x="-63.0" y="-81.0" />
+      <point x="113.0" y="713.0" />
+      <point x="88.0" y="713.0" />
+      <point x="-88.0" y="136.0" />
+    </edge>
+    <edge source="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.ciudades" target="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.provincias">
+      <point x="0.0" y="-48.0" />
+      <point x="176.0" y="245.0" />
+      <point x="170.75" y="245.0" />
+      <point x="48.0" y="48.0" />
+    </edge>
+    <edge source="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.usuarios" target="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.provincias">
+      <point x="-117.33333333333331" y="-136.0" />
+      <point x="58.666666666666686" y="391.0" />
+      <point x="69.5" y="391.0" />
+      <point x="69.5" y="245.0" />
+      <point x="74.75" y="245.0" />
+      <point x="-48.0" y="48.0" />
+    </edge>
+    <edge source="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.usuarios" target="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.paises">
+      <point x="117.33333333333331" y="-136.0" />
+      <point x="293.3333333333333" y="391.0" />
+      <point x="282.5" y="391.0" />
+      <point x="282.5" y="99.0" />
+      <point x="243.0" y="99.0" />
+      <point x="43.0" y="37.0" />
+    </edge>
+    <edge source="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.usuarios" target="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.ciudades">
+      <point x="0.0" y="-136.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.provincias" target="c5ebc904-6f40-4bf2-a6f5-5778fdfe36ad.TABLE:apirest.paises">
+      <point x="0.0" y="-48.0" />
+      <point x="122.75" y="99.0" />
+      <point x="157.0" y="99.0" />
+      <point x="-43.0" y="37.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7065217391304347" x="368.44129472856923" y="265.8923076923077" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+
