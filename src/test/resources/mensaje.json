@@ -1,9 +1,11 @@
 {
   "remitente": {
+    "id": 3,
     "email": "facumaldonado97@gmail.com"
   },
   "recipiente": {
-    "email": "manpower32@gmail.com"
+    "id": 63,
+    "email": "notengo@jotaka.com"
   },
   "asunto": "Urgente!",
   "contenido": "Necesito los ravioles",

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MensajeDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ApiRest2</a> &gt; <a href="index.source.html" class="el_package">ApiRest2.Persistence</a> &gt; <span class="el_source">MensajeDao.java</span></div><h1>MensajeDao.java</h1><pre class="source lang-java linenums">package ApiRest2.Persistence;
+
+import ApiRest2.Entities.Mensaje;
+import ApiRest2.Entities.Usuario;
+import ApiRest2.Util.AuthenticationData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Facundo on 05/06/2017.
+ */
+@Repository
+public class MensajeDao extends FatherDao&lt;Mensaje&gt;{
+
+    @Autowired
+    private AuthenticationData aData;
+
+    @Autowired
+    public MensajeDao(@Value(&quot;${db.host}&quot;) String host, @Value(&quot;${db.port}&quot;)String port,
+                      @Value(&quot;${db.name}&quot;) String dbName, @Value(&quot;${db.username}&quot;)String dbUserName,
+                      @Value(&quot;${db.pw}&quot;)String dbPass) {
+<span class="fc" id="L27">        super(host, port, dbName, dbUserName, dbPass);</span>
+<span class="fc" id="L28">    }</span>
+
+    public void insert(Mensaje mensaje){
+        try {
+<span class="fc" id="L32">            PreparedStatement ps = conn.prepareStatement(&quot;INSERT INTO mensajes&quot; +</span>
+            &quot; (remitente_id, recipiente_id, asunto, contenido_mensaje, fecha) VALUES  ( ?, ?, ?, ?, ?)&quot;);
+<span class="fc" id="L34">            ps.setInt(1,mensaje.getRemitente().getId());</span>
+<span class="fc" id="L35">            ps.setInt(2,mensaje.getRecipiente().getId());</span>
+<span class="fc" id="L36">            ps.setString(3,mensaje.getAsunto());</span>
+<span class="fc" id="L37">            ps.setString(4,mensaje.getContenido());</span>
+<span class="fc" id="L38">            ps.setTimestamp(5,mensaje.getFecha());</span>
+<span class="fc" id="L39">            ps.execute();</span>
+<span class="nc" id="L40">        }catch (SQLException e){</span>
+<span class="nc" id="L41">            e.printStackTrace();</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">    }</span>
+
+    public List&lt;Mensaje&gt; getAll() {
+<span class="fc" id="L46">        String sql = &quot;SELECT u.email as RecipienteEmail, u2.email as RemitenteEmail&quot; +</span>
+                &quot;, m.asunto, m.contenido_mensaje, m.fecha FROM mensajes as m&quot; +
+                &quot; INNER JOIN usuarios as u ON m.recipiente_id = u.id&quot;+
+                &quot; INNER JOIN usuarios as u2 ON m.remitente_id = u2.id&quot;+
+                &quot; WHERE m.recipiente_id = ?&quot;;
+        try {
+<span class="fc" id="L52">            PreparedStatement ps = conn.prepareStatement(sql);</span>
+<span class="fc" id="L53">            ps.setInt(1, aData.getUsuario().getId());</span>
+<span class="fc" id="L54">            ResultSet rs = ps.executeQuery();</span>
+<span class="fc" id="L55">            List&lt;Mensaje&gt; mensajesInbox = new ArrayList&lt;Mensaje&gt;();</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L57">                Usuario userEmisor = new Usuario();</span>
+<span class="fc" id="L58">                userEmisor.setEmail(rs.getString(&quot;RemitenteEmail&quot;));</span>
+<span class="fc" id="L59">                Usuario userReceptor = new Usuario();</span>
+<span class="fc" id="L60">                userReceptor.setEmail(rs.getString(&quot;RecipienteEmail&quot;));</span>
+
+<span class="fc" id="L62">                Mensaje mensaje = new Mensaje(userEmisor, userReceptor,</span>
+<span class="fc" id="L63">                        rs.getString(&quot;m.asunto&quot;), rs.getString(&quot;m.contenido_mensaje&quot;),</span>
+<span class="fc" id="L64">                        rs.getTimestamp(&quot;m.fecha&quot;));</span>
+<span class="fc" id="L65">                mensajesInbox.add(mensaje);</span>
+<span class="fc" id="L66">            }</span>
+<span class="fc" id="L67">            return mensajesInbox;</span>
+<span class="nc" id="L68">        }catch (SQLException e){</span>
+<span class="nc" id="L69">            e.printStackTrace();</span>
+<span class="nc" id="L70">            return null;</span>
+        }
+    }
+
+    public List&lt;Mensaje&gt; getEnviados() {
+<span class="fc" id="L75">        String sql = &quot;SELECT u.email as RecipienteEmail, u2.email as RemitenteEmail&quot; +</span>
+                &quot;, m.asunto, m.contenido_mensaje, m.fecha FROM mensajes as m&quot; +
+                &quot; INNER JOIN usuarios as u ON m.recipiente_id = u.id&quot;+
+                &quot; INNER JOIN usuarios as u2 ON m.remitente_id = u2.id&quot;+
+                &quot; WHERE m.remitente_id = ?&quot;;
+        try {
+<span class="fc" id="L81">            PreparedStatement ps = conn.prepareStatement(sql);</span>
+<span class="fc" id="L82">            ps.setInt(1, aData.getUsuario().getId());</span>
+<span class="fc" id="L83">            ResultSet rs = ps.executeQuery();</span>
+<span class="fc" id="L84">            List&lt;Mensaje&gt; mensajesOutbox = new ArrayList&lt;Mensaje&gt;();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L86">                Usuario userEmisor = new Usuario();</span>
+<span class="fc" id="L87">                userEmisor.setEmail(rs.getString(&quot;RemitenteEmail&quot;));</span>
+<span class="fc" id="L88">                Usuario userReceptor = new Usuario();</span>
+<span class="fc" id="L89">                userReceptor.setEmail(rs.getString(&quot;RecipienteEmail&quot;));</span>
+
+<span class="fc" id="L91">                Mensaje mensaje = new Mensaje(userEmisor, userReceptor,</span>
+<span class="fc" id="L92">                        rs.getString(&quot;m.asunto&quot;), rs.getString(&quot;m.contenido_mensaje&quot;),</span>
+<span class="fc" id="L93">                        rs.getTimestamp(&quot;m.fecha&quot;));</span>
+<span class="fc" id="L94">                mensajesOutbox.add(mensaje);</span>
+<span class="fc" id="L95">            }</span>
+<span class="fc" id="L96">            return mensajesOutbox;</span>
+<span class="nc" id="L97">        }catch (SQLException e){</span>
+<span class="nc" id="L98">            e.printStackTrace();</span>
+<span class="nc" id="L99">            return null;</span>
+        }
+    }
+
+    public List&lt;Mensaje&gt; getTrash(){
+<span class="fc" id="L104">        String sql = &quot;SELECT u.email as RecipienteEmail, u2.email as RemitenteEmail&quot; +</span>
+                &quot;, m.asunto, m.contenido_mensaje, m.fecha FROM mensajes_eliminados as m&quot; +
+                &quot; INNER JOIN usuarios as u ON m.recipiente_id = u.id&quot;+
+                &quot; INNER JOIN usuarios as u2 ON m.remitente_id = u2.id&quot; +
+                &quot; WHERE m.recipiente_id = ? OR m.remitente_id = ?&quot;;
+        try {
+<span class="fc" id="L110">            PreparedStatement ps = conn.prepareStatement(sql);</span>
+<span class="fc" id="L111">            ps.setInt(1, aData.getUsuario().getId());</span>
+<span class="fc" id="L112">            ps.setInt(2, aData.getUsuario().getId());</span>
+<span class="fc" id="L113">            ResultSet rs = ps.executeQuery();</span>
+<span class="fc" id="L114">            List&lt;Mensaje&gt; mensajesTrash = new ArrayList&lt;Mensaje&gt;();</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L116">                Usuario userEmisor = new Usuario();</span>
+<span class="fc" id="L117">                userEmisor.setEmail(rs.getString(&quot;RemitenteEmail&quot;));</span>
+<span class="fc" id="L118">                Usuario userReceptor = new Usuario();</span>
+<span class="fc" id="L119">                userEmisor.setEmail(rs.getString(&quot;RecipienteEmail&quot;));</span>
+<span class="fc" id="L120">                Mensaje mensaje = new Mensaje(userEmisor, userReceptor,</span>
+<span class="fc" id="L121">                        rs.getString(&quot;m.asunto&quot;), rs.getString(&quot;m.contenido_mensaje&quot;),</span>
+<span class="fc" id="L122">                        rs.getTimestamp(&quot;m.fecha&quot;));</span>
+<span class="fc" id="L123">                mensajesTrash.add(mensaje);</span>
+<span class="fc" id="L124">            }</span>
+<span class="fc" id="L125">            return mensajesTrash;</span>
+<span class="nc" id="L126">        }catch (SQLException e){</span>
+<span class="nc" id="L127">            e.printStackTrace();</span>
+<span class="nc" id="L128">            return null;</span>
+        }
+    }
+
+    public void deleteMensaje(int id) throws SQLException{
+<span class="fc" id="L133">        String sql = &quot;DELETE FROM mensajes WHERE id = ?&quot;;</span>
+<span class="fc" id="L134">        PreparedStatement ps = conn.prepareStatement(sql);</span>
+<span class="fc" id="L135">        ps.setInt(1, id);</span>
+<span class="fc" id="L136">        ps.execute();</span>
+<span class="fc" id="L137">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

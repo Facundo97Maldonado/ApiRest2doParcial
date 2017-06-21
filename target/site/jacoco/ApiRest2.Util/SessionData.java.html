@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SessionData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ApiRest2</a> &gt; <a href="index.source.html" class="el_package">ApiRest2.Util</a> &gt; <span class="el_source">SessionData.java</span></div><h1>SessionData.java</h1><pre class="source lang-java linenums">package ApiRest2.Util;
+
+import ApiRest2.Entities.Usuario;
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * Created by Facundo on 08/06/2017.
+ */
+@Service
+public class SessionData {
+
+<span class="fc" id="L21">    final static Logger logger = Logger.getLogger(SessionData.class);</span>
+    HashMap&lt;String, AuthenticationData&gt; sessionData;
+
+    @Value(&quot;${session.expiration}&quot;)
+    int expirationTime;
+
+    @Autowired
+    AuthenticationData aData;
+
+<span class="fc" id="L30">    public SessionData() {</span>
+<span class="fc" id="L31">        this.sessionData = new HashMap&lt;String, AuthenticationData&gt;();</span>
+<span class="fc" id="L32">    }</span>
+
+    public String addSession(Usuario usuario) {
+<span class="fc" id="L35">        String sessionId = UUID.randomUUID().toString();</span>
+<span class="fc" id="L36">        aData.setUsuario(usuario);</span>
+<span class="fc" id="L37">        aData.setLastAction(new DateTime());</span>
+<span class="fc" id="L38">        this.sessionData.put(sessionId, aData);</span>
+<span class="fc" id="L39">        return sessionId;</span>
+    }
+
+
+    public void removeSession(String sessionId) {
+<span class="fc" id="L44">        sessionData.remove(sessionId);</span>
+<span class="fc" id="L45">    }</span>
+
+    public AuthenticationData getSession(String sessionId) {
+<span class="fc" id="L48">        AuthenticationData aData = this.sessionData.get(sessionId);</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if (aData != null) {</span>
+<span class="nc" id="L50">            return aData;</span>
+        } else {
+<span class="fc" id="L52">            return null;</span>
+        }
+    }
+
+    @Scheduled(fixedRate = 100000)
+    public void checkSessions() {
+<span class="fc" id="L58">        System.out.println(&quot;Checking sessions&quot;);</span>
+<span class="fc" id="L59">        Set&lt;String&gt; sessionsId = this.sessionData.keySet();</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (String sessionId : sessionsId) {</span>
+<span class="fc" id="L61">            AuthenticationData aData = this.sessionData.get(sessionId);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            if (aData.getLastAction().plusSeconds(expirationTime).isBefore(System.currentTimeMillis())) {</span>
+<span class="nc" id="L63">                System.out.println(&quot;Deleting sessionId = &quot; + sessionId);</span>
+<span class="nc" id="L64">                this.sessionData.remove(sessionId);</span>
+            }
+<span class="fc" id="L66">        }</span>
+<span class="fc" id="L67">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

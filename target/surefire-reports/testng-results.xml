@@ -1,130 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="1" ignored="0" total="11" passed="10">
+<testng-results skipped="0" failed="0" ignored="0" total="19" passed="19">
   <reporter-output>
   </reporter-output>
-  <suite name="Surefire suite" duration-ms="2406" started-at="2017-06-15T16:22:44Z" finished-at="2017-06-15T16:22:46Z">
+  <suite name="Surefire suite" duration-ms="13460" started-at="2017-06-20T22:43:47Z" finished-at="2017-06-20T22:44:00Z">
     <groups>
     </groups>
-    <test name="Surefire test" duration-ms="2406" started-at="2017-06-15T16:22:44Z" finished-at="2017-06-15T16:22:46Z">
+    <test name="Surefire test" duration-ms="13460" started-at="2017-06-20T22:43:47Z" finished-at="2017-06-20T22:44:00Z">
       <class name="ApiRest2.AppTest">
-        <test-method status="PASS" signature="testApp()" name="testApp" duration-ms="32" started-at="2017-06-15T13:22:44Z" finished-at="2017-06-15T13:22:44Z">
+        <test-method status="PASS" signature="testApp()" name="testApp" duration-ms="38" started-at="2017-06-20T19:43:47Z" finished-at="2017-06-20T19:43:47Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testApp -->
       </class> <!-- ApiRest2.AppTest -->
-      <class name="ApiRest2.Entities.UsuarioTest">
-        <test-method status="PASS" signature="testCiudad()" name="testCiudad" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
+      <class name="ApiRest2.AuthFilterTest">
+        <test-method status="PASS" signature="doFilterTest() throws java.lang.Exception" name="doFilterTest" duration-ms="10550" started-at="2017-06-20T19:43:48Z" finished-at="2017-06-20T19:43:58Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testCiudad -->
-        <test-method status="PASS" signature="testDireccion()" name="testDireccion" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testDireccion -->
-        <test-method status="PASS" signature="testApellido()" name="testApellido" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testApellido -->
-        <test-method status="PASS" signature="testNombre()" name="testNombre" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testNombre -->
-        <test-method status="PASS" signature="testPais()" name="testPais" duration-ms="0" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testPais -->
-        <test-method status="PASS" signature="testContrasena()" name="testContrasena" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testContrasena -->
-        <test-method status="PASS" signature="testUsername()" name="testUsername" duration-ms="16" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testUsername -->
-        <test-method status="PASS" signature="testEmail()" name="testEmail" duration-ms="0" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testEmail -->
-        <test-method status="PASS" signature="testTelefono()" name="testTelefono" duration-ms="0" started-at="2017-06-15T13:22:46Z" finished-at="2017-06-15T13:22:46Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testTelefono -->
-      </class> <!-- ApiRest2.Entities.UsuarioTest -->
+        </test-method> <!-- doFilterTest -->
+      </class> <!-- ApiRest2.AuthFilterTest -->
       <class name="ApiRest2.Controller.UsuarioControllerTest">
-        <test-method status="FAIL" signature="testDeleteUserOk() throws java.lang.Exception" name="testDeleteUserOk" duration-ms="1875" started-at="2017-06-15T13:22:44Z" finished-at="2017-06-15T13:22:46Z">
-          <exception class="java.lang.IllegalStateException">
-            <message>
-              <![CDATA[Failed to load ApplicationContext]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.IllegalStateException: Failed to load ApplicationContext
-	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:124)
-	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:83)
-	at org.springframework.boot.test.autoconfigure.AutoConfigureReportTestExecutionListener.prepareTestInstance(AutoConfigureReportTestExecutionListener.java:49)
-	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:230)
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:228)
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:287)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:289)
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:247)
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:94)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
-	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:191)
-	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
-	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
-	at org.testng.junit.JUnit4TestRunner.start(JUnit4TestRunner.java:82)
-	at org.testng.junit.JUnit4TestRunner.run(JUnit4TestRunner.java:70)
-	at org.testng.TestRunner$1.run(TestRunner.java:667)
-	at org.testng.TestRunner.runJUnitWorkers(TestRunner.java:950)
-	at org.testng.TestRunner.privateRunJUnit(TestRunner.java:698)
-	at org.testng.TestRunner.run(TestRunner.java:599)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:380)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:375)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:340)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:289)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1301)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1226)
-	at org.testng.TestNG.runSuites(TestNG.java:1144)
-	at org.testng.TestNG.run(TestNG.java:1115)
-	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:115)
-	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:212)
-	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:108)
-	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
-	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:203)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:155)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)
-Caused by: org.springframework.context.ApplicationContextException: Unable to start embedded container; nested exception is org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
-	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.onRefresh(EmbeddedWebApplicationContext.java:137)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:535)
-	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:759)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:369)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:313)
-	at org.springframework.boot.test.SpringApplicationContextLoader.loadContext(SpringApplicationContextLoader.java:103)
-	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:98)
-	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:116)
-	... 43 more
-Caused by: org.springframework.context.ApplicationContextException: Unable to start EmbeddedWebApplicationContext due to missing EmbeddedServletContainerFactory bean.
-	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.getEmbeddedServletContainerFactory(EmbeddedWebApplicationContext.java:189)
-	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.createEmbeddedServletContainer(EmbeddedWebApplicationContext.java:162)
-	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.onRefresh(EmbeddedWebApplicationContext.java:134)
-	... 51 more
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.IllegalStateException -->
+        <test-method status="PASS" signature="checkSessionTest() throws java.lang.Exception" name="checkSessionTest" duration-ms="462" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- checkSessionTest -->
+        <test-method status="PASS" signature="testAgregarUsuario() throws java.lang.Exception" name="testAgregarUsuario" duration-ms="403" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAgregarUsuario -->
+        <test-method status="PASS" signature="testListarUsuariosOk() throws java.lang.Exception" name="testListarUsuariosOk" duration-ms="439" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testListarUsuariosOk -->
+        <test-method status="PASS" signature="testListarUsuariosByNameNotFound() throws java.lang.Exception" name="testListarUsuariosByNameNotFound" duration-ms="495" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testListarUsuariosByNameNotFound -->
+        <test-method status="PASS" signature="testListarUsuariosNoContent() throws java.lang.Exception" name="testListarUsuariosNoContent" duration-ms="556" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testListarUsuariosNoContent -->
+        <test-method status="PASS" signature="logoutOk() throws java.lang.Exception" name="logoutOk" duration-ms="678" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- logoutOk -->
+        <test-method status="PASS" signature="testLoginForbidden() throws java.lang.Exception" name="testLoginForbidden" duration-ms="664" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLoginForbidden -->
+        <test-method status="PASS" signature="testListarUsuariosByNameOk() throws java.lang.Exception" name="testListarUsuariosByNameOk" duration-ms="518" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testListarUsuariosByNameOk -->
+        <test-method status="PASS" signature="testLoginOk() throws java.lang.Exception" name="testLoginOk" duration-ms="622" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLoginOk -->
+        <test-method status="PASS" signature="testDeleteUserOk() throws java.lang.Exception" name="testDeleteUserOk" duration-ms="643" started-at="2017-06-20T19:44:00Z" finished-at="2017-06-20T19:44:00Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testDeleteUserOk -->
       </class> <!-- ApiRest2.Controller.UsuarioControllerTest -->
+      <class name="ApiRest2.Controller.MensajeControllerTest">
+        <test-method status="PASS" signature="testGetOutboxNoContent() throws java.lang.Exception" name="testGetOutboxNoContent" duration-ms="474" started-at="2017-06-20T19:43:58Z" finished-at="2017-06-20T19:43:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetOutboxNoContent -->
+        <test-method status="PASS" signature="testGetInboxOk() throws java.lang.Exception" name="testGetInboxOk" duration-ms="453" started-at="2017-06-20T19:43:58Z" finished-at="2017-06-20T19:43:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetInboxOk -->
+        <test-method status="PASS" signature="testEnviarMensajeOk() throws java.lang.Exception" name="testEnviarMensajeOk" duration-ms="1024" started-at="2017-06-20T19:43:58Z" finished-at="2017-06-20T19:43:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testEnviarMensajeOk -->
+        <test-method status="PASS" signature="testGetTrashOk() throws java.lang.Exception" name="testGetTrashOk" duration-ms="504" started-at="2017-06-20T19:43:58Z" finished-at="2017-06-20T19:43:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetTrashOk -->
+        <test-method status="PASS" signature="testBorrarMensajeOk() throws java.lang.Exception" name="testBorrarMensajeOk" duration-ms="1048" started-at="2017-06-20T19:43:58Z" finished-at="2017-06-20T19:43:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testBorrarMensajeOk -->
+        <test-method status="PASS" signature="testGetInboxNoContent() throws java.lang.Exception" name="testGetInboxNoContent" duration-ms="1109" started-at="2017-06-20T19:43:58Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetInboxNoContent -->
+        <test-method status="PASS" signature="testGetOutboxOk() throws java.lang.Exception" name="testGetOutboxOk" duration-ms="1079" started-at="2017-06-20T19:43:58Z" finished-at="2017-06-20T19:44:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetOutboxOk -->
+      </class> <!-- ApiRest2.Controller.MensajeControllerTest -->
     </test> <!-- Surefire test -->
   </suite> <!-- Surefire suite -->
 </testng-results>

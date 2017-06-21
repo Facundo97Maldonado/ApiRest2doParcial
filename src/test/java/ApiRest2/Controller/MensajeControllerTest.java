@@ -3,6 +3,7 @@ package ApiRest2.Controller;
 import ApiRest2.App;
 import ApiRest2.Entities.*;
 import ApiRest2.Response.LoginResponseWrapper;
+import ApiRest2.Util.AuthenticationData;
 import ApiRest2.Util.SessionData;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -40,6 +41,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(classes = {App.class})
 @WebAppConfiguration
 public class MensajeControllerTest extends TestCase{
+
+    @Autowired
+    private AuthenticationData aData;
 
     @Autowired
     private SessionData sessionData;
@@ -83,11 +87,12 @@ public class MensajeControllerTest extends TestCase{
         usuario.setCiudad(ciudad);
         usuario.setProvincia(provincia);
         usuario.setPais(pais);
-        usuario.setEmail("Email");
-        usuario.setUserName("Username");
-        usuario.setContrasena("testContransena");
+        usuario.setEmail("facumaldonado@gmail.com");
+        usuario.setUserName("facu");
+        usuario.setContrasena("1234");
 
         remitente = new Usuario();
+        remitente.setId(3);
         remitente.setNombre("Nombre");
         remitente.setApellido("Apellido");
         remitente.setDireccion("Direccion");
@@ -107,9 +112,9 @@ public class MensajeControllerTest extends TestCase{
         recipiente.setCiudad(ciudad);
         recipiente.setProvincia(provincia);
         recipiente.setPais(pais);
-        recipiente.setEmail("manpower@gmail.com");
-        recipiente.setUserName("amtheman");
-        recipiente.setContrasena("manman");
+        recipiente.setEmail("elneneestabien@elnene.com");
+        recipiente.setUserName("elnene");
+        recipiente.setContrasena("estabien");
 
         mensaje = new Mensaje();
         mensaje.setId(1);
@@ -121,6 +126,7 @@ public class MensajeControllerTest extends TestCase{
 
         this.loginResponseWrapper = new LoginResponseWrapper();
         this.loginResponseWrapper.setSessionId(this.sessionData.addSession(remitente));
+        this.aData.setUsuario(remitente);
     }
 
     @After

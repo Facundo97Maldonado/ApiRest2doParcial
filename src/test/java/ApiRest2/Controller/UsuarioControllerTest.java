@@ -137,6 +137,11 @@ public class UsuarioControllerTest extends TestCase{
     }
 
     @Test
+    public void checkSessionTest() throws Exception {
+        this.sessionData.checkSessions();
+    }
+
+    @Test
     public void testAgregarUsuario() throws Exception{
         URL url  = Resources.getResource("usuario.json");
         String json = Resources.toString(url, Charsets.UTF_8);

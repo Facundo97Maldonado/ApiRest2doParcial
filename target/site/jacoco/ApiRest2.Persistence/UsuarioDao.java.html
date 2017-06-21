@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ApiRest2</a> &gt; <a href="index.source.html" class="el_package">ApiRest2.Persistence</a> &gt; <span class="el_source">UsuarioDao.java</span></div><h1>UsuarioDao.java</h1><pre class="source lang-java linenums">package ApiRest2.Persistence;
+
+import ApiRest2.Entities.Ciudad;
+import ApiRest2.Entities.Pais;
+import ApiRest2.Entities.Provincia;
+import ApiRest2.Entities.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Facundo on 05/06/2017.
+ */
+@Repository
+public class UsuarioDao extends FatherDao&lt;Usuario&gt;{
+
+    @Autowired
+    public UsuarioDao(@Value(&quot;${db.host}&quot;) String host, @Value(&quot;${db.port}&quot;)String port,
+                      @Value(&quot;${db.name}&quot;) String dbName, @Value(&quot;${db.username}&quot;)String dbUserName,
+                      @Value(&quot;${db.pw}&quot;)String dbPass){
+
+<span class="fc" id="L29">        super(host, port, dbName, dbUserName, dbPass);</span>
+<span class="fc" id="L30">    }</span>
+
+    //Agregar un usuario
+    public void insert(Usuario usuario){
+        try {
+<span class="fc" id="L35">            PreparedStatement ps =  conn.prepareStatement(&quot;INSERT INTO usuarios (nombre,&quot; +</span>
+                    &quot; apellido, direccion, telefono, id_ciudad, id_provincia, id_pais,&quot; +
+                    &quot; email, username, contrasena) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )&quot;);
+<span class="fc" id="L38">            ps.setString(1,usuario.getNombre());</span>
+<span class="fc" id="L39">            ps.setString(2,usuario.getApellido());</span>
+<span class="fc" id="L40">            ps.setString(3,usuario.getDireccion());</span>
+<span class="fc" id="L41">            ps.setString(4,usuario.getTelefono());</span>
+<span class="fc" id="L42">            ps.setInt(5,usuario.getCiudad().getId());</span>
+<span class="fc" id="L43">            ps.setInt(6, usuario.getProvincia().getId());</span>
+<span class="fc" id="L44">            ps.setInt(7,usuario.getPais().getId());</span>
+<span class="fc" id="L45">            ps.setString(8,usuario.getEmail());</span>
+<span class="fc" id="L46">            ps.setString(9,usuario.getUserName());</span>
+<span class="fc" id="L47">            ps.setString(10,usuario.getContrasena());</span>
+<span class="nc" id="L48">            ps.execute();</span>
+<span class="fc" id="L49">        }catch (SQLException e){</span>
+<span class="fc" id="L50">            e.printStackTrace();</span>
+<span class="nc" id="L51">        }</span>
+
+
+<span class="fc" id="L54">    }</span>
+
+    /*Mostrar un usuario, mediante id
+    public Usuario getById(int id){
+        String sql = &quot;SELECT * FROM usuarios &quot; +
+                &quot;INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad&quot; +
+                &quot; INNER JOIN provincias ON provincias.id = usuarios.id_provincia&quot; +
+                &quot; INNER JOIN paises ON paises.id = usuarios.id_pais &quot; +
+                &quot; WHERE usuarios.id = ?&quot;;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                Ciudad ciudad = new Ciudad(rs.getInt(&quot;ciudades.id&quot;),rs.getString(&quot;ciudades.nombre&quot;));
+
+                Provincia provincia = new Provincia(rs.getInt(&quot;provincias.id&quot;),rs.getString(&quot;provincias.nombre&quot;));
+
+                Pais pais = new Pais(rs.getInt(&quot;paises.id&quot;),rs.getString(&quot;paises.nombre&quot;));
+                Usuario usuario = new Usuario(rs.getString(&quot;nombre&quot;),rs.getString(&quot;apellido&quot;),
+                        rs.getString(&quot;direccion&quot;), rs.getString(&quot;telefono&quot;),
+                        ciudad, provincia, pais, rs.getString(&quot;email&quot;),
+                        rs.getString(&quot;username&quot;), rs.getString(&quot;contrasena&quot;));
+                usuario.setId(rs.getInt(&quot;usuarios.id&quot;));
+                return usuario;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }*/
+
+    //Mostrar un usuario, mediante nombre
+    public Usuario getByName(String nombre){
+<span class="fc" id="L87">        String sql = &quot;SELECT * FROM usuarios &quot; +</span>
+                &quot;INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad&quot; +
+                &quot; INNER JOIN provincias ON provincias.id = usuarios.id_provincia&quot; +
+                &quot; INNER JOIN paises ON paises.id = usuarios.id_pais &quot; +
+                &quot; WHERE usuarios.nombre LIKE ?&quot;;
+        try {
+<span class="fc" id="L93">            PreparedStatement ps = conn.prepareStatement(sql);</span>
+<span class="fc" id="L94">            ps.setString(1, nombre);</span>
+<span class="fc" id="L95">            ResultSet rs = ps.executeQuery();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">            if (rs.next()){</span>
+<span class="fc" id="L97">                Ciudad ciudad = new Ciudad(rs.getInt(&quot;ciudades.id&quot;),rs.getString(&quot;ciudades.nombre&quot;));</span>
+
+<span class="fc" id="L99">                Provincia provincia = new Provincia(rs.getInt(&quot;provincias.id&quot;),rs.getString(&quot;provincias.nombre&quot;));</span>
+
+<span class="fc" id="L101">                Pais pais = new Pais(rs.getInt(&quot;paises.id&quot;),rs.getString(&quot;paises.nombre&quot;));</span>
+<span class="fc" id="L102">                Usuario usuario = new Usuario(rs.getString(&quot;nombre&quot;),rs.getString(&quot;apellido&quot;),</span>
+<span class="fc" id="L103">                        rs.getString(&quot;direccion&quot;), rs.getString(&quot;telefono&quot;),</span>
+<span class="fc" id="L104">                        ciudad, provincia, pais, rs.getString(&quot;email&quot;),</span>
+<span class="fc" id="L105">                        rs.getString(&quot;username&quot;), rs.getString(&quot;contrasena&quot;));</span>
+<span class="fc" id="L106">                usuario.setId(rs.getInt(&quot;usuarios.id&quot;));</span>
+<span class="fc" id="L107">                return usuario;</span>
+            }
+<span class="nc" id="L109">        }catch (SQLException e){</span>
+<span class="nc" id="L110">            e.printStackTrace();</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">        return null;</span>
+    }
+
+    //Mostrar todos los usuarios
+    public List&lt;Usuario&gt; getAll(){
+<span class="fc" id="L117">        String sql = &quot;SELECT * FROM usuarios &quot; +</span>
+                &quot; INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad&quot; +
+                &quot; INNER JOIN provincias ON provincias.id = usuarios.id_provincia&quot; +
+                &quot; INNER JOIN paises ON paises.id = usuarios.id_pais&quot;;
+        try {
+<span class="fc" id="L122">            Statement st = conn.createStatement();</span>
+<span class="fc" id="L123">            ResultSet rs = st.executeQuery(sql);</span>
+<span class="fc" id="L124">            List&lt;Usuario&gt; usuarios = new ArrayList&lt;Usuario&gt;();</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            while (rs.next()){</span>
+<span class="fc" id="L126">                Ciudad ciudad = new Ciudad(rs.getInt(&quot;ciudades.id&quot;),rs.getString(&quot;ciudades.nombre&quot;));</span>
+
+<span class="fc" id="L128">                Provincia provincia = new Provincia(rs.getInt(&quot;provincias.id&quot;),rs.getString(&quot;provincias.nombre&quot;));</span>
+
+<span class="fc" id="L130">                Pais pais = new Pais(rs.getInt(&quot;paises.id&quot;),rs.getString(&quot;paises.nombre&quot;));</span>
+
+<span class="fc" id="L132">                Usuario usuario = new Usuario(rs.getString(&quot;nombre&quot;),rs.getString(&quot;apellido&quot;),</span>
+<span class="fc" id="L133">                        rs.getString(&quot;direccion&quot;), rs.getString(&quot;telefono&quot;),</span>
+<span class="fc" id="L134">                        ciudad, provincia, pais, rs.getString(&quot;email&quot;),</span>
+<span class="fc" id="L135">                        rs.getString(&quot;username&quot;), rs.getString(&quot;contrasena&quot;));</span>
+<span class="fc" id="L136">                usuario.setId(rs.getInt(&quot;usuarios.id&quot;));</span>
+<span class="fc" id="L137">                usuarios.add(usuario);</span>
+<span class="fc" id="L138">            }</span>
+<span class="fc" id="L139">            return usuarios;</span>
+<span class="nc" id="L140">        }catch (SQLException e){</span>
+<span class="nc" id="L141">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L143">        return null;</span>
+    }
+
+    //Eliminar un usuario
+    public void deleteUser(int id){
+<span class="fc" id="L148">        String sql = &quot;DELETE FROM usuarios WHERE id = ?&quot;;</span>
+        try {
+<span class="fc" id="L150">            PreparedStatement ps = conn.prepareStatement(sql);</span>
+<span class="fc" id="L151">            ps.setInt(1,id);</span>
+<span class="fc" id="L152">            ps.execute();</span>
+<span class="nc" id="L153">        }catch (SQLException e){</span>
+<span class="nc" id="L154">            e.printStackTrace();</span>
+<span class="fc" id="L155">        }</span>
+
+<span class="fc" id="L157">    }</span>
+
+    public Usuario getToLogin(String username, String password){
+<span class="fc" id="L160">        String sql = &quot;SELECT * FROM usuarios&quot; +</span>
+                &quot; INNER JOIN ciudades ON ciudades.id = usuarios.id_ciudad&quot; +
+                &quot; INNER JOIN provincias ON provincias.id = usuarios.id_provincia&quot; +
+                &quot; INNER JOIN paises ON paises.id = usuarios.id_pais&quot; +
+                &quot; WHERE usuarios.username = ? AND &quot; +
+                &quot; usuarios.contrasena = ?&quot;;
+        try{
+<span class="fc" id="L167">            System.out.println(conn);</span>
+<span class="fc" id="L168">            PreparedStatement ps = conn.prepareStatement(sql);</span>
+<span class="fc" id="L169">            ps.setString(1,username);</span>
+<span class="fc" id="L170">            ps.setString(2,password);</span>
+<span class="fc" id="L171">            ResultSet rs = ps.executeQuery();</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">            if(rs.next()){</span>
+<span class="fc" id="L173">                Ciudad ciudad = new Ciudad(rs.getInt(&quot;ciudades.id&quot;),rs.getString(&quot;ciudades.nombre&quot;));</span>
+
+<span class="fc" id="L175">                Provincia provincia = new Provincia(rs.getInt(&quot;provincias.id&quot;),rs.getString(&quot;provincias.nombre&quot;));</span>
+
+<span class="fc" id="L177">                Pais pais = new Pais(rs.getInt(&quot;paises.id&quot;),rs.getString(&quot;paises.nombre&quot;));</span>
+
+<span class="fc" id="L179">                Usuario user = new Usuario(rs.getString(&quot;nombre&quot;), rs.getString(&quot;apellido&quot;),</span>
+<span class="fc" id="L180">                        rs.getString(&quot;direccion&quot;), rs.getString(&quot;telefono&quot;), ciudad,</span>
+<span class="fc" id="L181">                        provincia, pais, rs.getString(&quot;email&quot;), rs.getString(&quot;username&quot;)</span>
+<span class="fc" id="L182">                        ,rs.getString(&quot;contrasena&quot;));</span>
+<span class="fc" id="L183">                user.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L184">                return user;</span>
+            }
+<span class="nc" id="L186">        }catch (SQLException e){</span>
+<span class="nc" id="L187">            e.printStackTrace();</span>
+<span class="fc" id="L188">        }</span>
+<span class="fc" id="L189">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

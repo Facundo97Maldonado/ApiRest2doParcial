@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MensajeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ApiRest2</a> &gt; <a href="index.source.html" class="el_package">ApiRest2.Controller</a> &gt; <span class="el_source">MensajeController.java</span></div><h1>MensajeController.java</h1><pre class="source lang-java linenums">package ApiRest2.Controller;
+
+import ApiRest2.Converter.MensajeConverter;
+import ApiRest2.Entities.Mensaje;
+import ApiRest2.Response.MensajeWrapper;
+import ApiRest2.Service.MensajeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
+import java.util.List;
+
+
+/**
+ * Created by Facundo on 05/06/2017.
+ */
+
+@RestController
+<span class="fc" id="L22">public class MensajeController {</span>
+
+    @Autowired
+    MensajeService mensajeService;
+
+
+    //Mostrar mensajes inbox
+    @RequestMapping(value = &quot;/api/mensajes/inbox&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt; getBandejaEntrada() throws SQLException {
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (this.mensajeService.getInbox().size() &gt; 0) {</span>
+<span class="fc" id="L33">            MensajeConverter conversor = new MensajeConverter();</span>
+<span class="fc" id="L34">            List&lt;MensajeWrapper&gt; wrappers = conversor.convertirLista(this.mensajeService.getInbox());</span>
+<span class="fc" id="L35">            return new ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt;(wrappers, HttpStatus.OK);</span>
+        }else {
+<span class="fc" id="L37">            return new ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt;(HttpStatus.NO_CONTENT);</span>
+        }
+    }
+
+
+    //Mostrar mensajes outbox
+    @RequestMapping(value = &quot;/api/mensajes/outbox&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt; getBandejaSalida() throws SQLException {
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (this.mensajeService.getOutbox().size() &gt; 0) {</span>
+<span class="fc" id="L47">            MensajeConverter conversor = new MensajeConverter();</span>
+<span class="fc" id="L48">            List&lt;MensajeWrapper&gt; wrappers = conversor.convertirLista(this.mensajeService.getOutbox());</span>
+<span class="fc" id="L49">            return new ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt;(wrappers, HttpStatus.OK);</span>
+        }else {
+<span class="fc" id="L51">            return new ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt;(HttpStatus.NO_CONTENT);</span>
+        }
+    }
+
+    //Mostrar mensajes en la bandeja de borrados
+    @RequestMapping(value = &quot;/api/mensajes/borrados&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt; getMensajesEliminados() throws SQLException {
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (this.mensajeService.getTrash().size() &gt; 0){</span>
+<span class="fc" id="L59">            MensajeConverter conversor = new MensajeConverter();</span>
+<span class="fc" id="L60">            List&lt;MensajeWrapper&gt; wrappers = conversor.convertirLista(this.mensajeService.getTrash());</span>
+<span class="fc" id="L61">            return new ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt;(wrappers, HttpStatus.OK);</span>
+        }else{
+<span class="nc" id="L63">            return new ResponseEntity&lt;List&lt;MensajeWrapper&gt;&gt;(HttpStatus.NO_CONTENT);</span>
+        }
+    }
+
+    //Borrar un mensaje
+    @RequestMapping(value = &quot;/api/mensajes/&quot;, method = RequestMethod.DELETE)
+    public ResponseEntity borrarMensaje(@RequestHeader int id){
+        try{
+<span class="fc" id="L71">            mensajeService.borrarMensaje(id);</span>
+<span class="fc" id="L72">            return new ResponseEntity(HttpStatus.OK);</span>
+<span class="nc" id="L73">        }catch (Exception e){</span>
+<span class="nc" id="L74">            return new ResponseEntity(HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+    //Enviar un mensaje
+    @RequestMapping(value = &quot;/api/mensajes/&quot;, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity agregarMensaje(@RequestBody Mensaje mensaje){
+        try {
+<span class="fc" id="L82">            mensajeService.agregarMensaje(mensaje);</span>
+<span class="fc" id="L83">            return new ResponseEntity(HttpStatus.CREATED);</span>
+<span class="nc" id="L84">        }catch (Exception e){</span>
+<span class="nc" id="L85">            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

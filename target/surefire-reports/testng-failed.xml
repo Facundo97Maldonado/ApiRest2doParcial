@@ -5,7 +5,8 @@
     <classes>
       <class name="org.junit.runner.Description">
         <methods>
-          <include name="testDeleteUserOk"/>
+          <include name="testGetOutboxOk"/>
+          <include name="testGetInboxOk"/>
         </methods>
       </class> <!-- org.junit.runner.Description -->
     </classes>

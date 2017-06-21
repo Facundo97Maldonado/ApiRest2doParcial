@@ -42,28 +42,6 @@ public class MensajeDao extends FatherDao<Mensaje>{
         }
     }
 
-    /*AHORA NO SE USA ESTO
-    public Mensaje getById(int id){
-        String sql = "SELECT * FROM mensajes where id = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1,id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Mensaje mensaje = new Mensaje((Usuario) rs.getObject("remitente_id"),
-                        (Usuario) rs.getObject("recipiente_id"),
-                        rs.getString("asunto"), rs.getString("contenido_mensaje"),
-                        rs.getTimestamp("fecha"));
-
-                return mensaje;
-            } else
-                return null;
-        }catch (SQLException e){
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
     public List<Mensaje> getAll() {
         String sql = "SELECT u.email as RecipienteEmail, u2.email as RemitenteEmail" +
                 ", m.asunto, m.contenido_mensaje, m.fecha FROM mensajes as m" +
@@ -80,6 +58,7 @@ public class MensajeDao extends FatherDao<Mensaje>{
                 userEmisor.setEmail(rs.getString("RemitenteEmail"));
                 Usuario userReceptor = new Usuario();
                 userReceptor.setEmail(rs.getString("RecipienteEmail"));
+
                 Mensaje mensaje = new Mensaje(userEmisor, userReceptor,
                         rs.getString("m.asunto"), rs.getString("m.contenido_mensaje"),
                         rs.getTimestamp("m.fecha"));
@@ -108,6 +87,7 @@ public class MensajeDao extends FatherDao<Mensaje>{
                 userEmisor.setEmail(rs.getString("RemitenteEmail"));
                 Usuario userReceptor = new Usuario();
                 userReceptor.setEmail(rs.getString("RecipienteEmail"));
+
                 Mensaje mensaje = new Mensaje(userEmisor, userReceptor,
                         rs.getString("m.asunto"), rs.getString("m.contenido_mensaje"),
                         rs.getTimestamp("m.fecha"));
@@ -124,10 +104,13 @@ public class MensajeDao extends FatherDao<Mensaje>{
         String sql = "SELECT u.email as RecipienteEmail, u2.email as RemitenteEmail" +
                 ", m.asunto, m.contenido_mensaje, m.fecha FROM mensajes_eliminados as m" +
                 " INNER JOIN usuarios as u ON m.recipiente_id = u.id"+
-                " INNER JOIN usuarios as u2 ON m.remitente_id = u2.id";
+                " INNER JOIN usuarios as u2 ON m.remitente_id = u2.id" +
+                " WHERE m.recipiente_id = ? OR m.remitente_id = ?";
         try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, aData.getUsuario().getId());
+            ps.setInt(2, aData.getUsuario().getId());
+            ResultSet rs = ps.executeQuery();
             List<Mensaje> mensajesTrash = new ArrayList<Mensaje>();
             while (rs.next()) {
                 Usuario userEmisor = new Usuario();

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ApiRest2</a> &gt; <a href="index.source.html" class="el_package">ApiRest2.Controller</a> &gt; <span class="el_source">UsuarioController.java</span></div><h1>UsuarioController.java</h1><pre class="source lang-java linenums">package ApiRest2.Controller;
+
+import ApiRest2.Converter.UsuarioConverter;
+import ApiRest2.Entities.Usuario;
+import ApiRest2.Response.LoginResponseWrapper;
+import ApiRest2.Response.UsuarioWrapper;
+import ApiRest2.Service.UsuarioService;
+import ApiRest2.Util.SessionData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * Created by Facundo on 06/06/2017.
+ */
+@RestController
+/*@RequestMapping(
+        value = &quot;/api&quot;,
+        produces = MediaType.APPLICATION_JSON_VALUE
+)*/
+public class UsuarioController {
+
+<span class="fc" id="L27">    public UsuarioController(){</span>
+
+<span class="fc" id="L29">    }</span>
+
+    @Autowired
+    UsuarioService usuarioService;
+
+    @Autowired
+    SessionData sessionData;
+
+
+
+    @RequestMapping(value = &quot;/login&quot;, method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity&lt;LoginResponseWrapper&gt; login
+            (@RequestParam(&quot;username&quot;) String username, @RequestParam(&quot;password&quot;) String pass){
+<span class="fc" id="L42">        Usuario user = usuarioService.login(username, pass);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (null != user) {</span>
+<span class="fc" id="L44">            String sessionId = sessionData.addSession(user);</span>
+<span class="fc" id="L45">            return new ResponseEntity&lt;LoginResponseWrapper&gt;(new LoginResponseWrapper(sessionId), HttpStatus.OK);</span>
+        }
+<span class="fc" id="L47">        return new ResponseEntity(HttpStatus.FORBIDDEN);</span>
+    }
+
+
+    @RequestMapping(&quot;/logout&quot;)
+    public @ResponseBody ResponseEntity logout(@RequestHeader(&quot;sessionid&quot;) String sessionId) {
+<span class="fc" id="L53">        sessionData.removeSession(sessionId);</span>
+<span class="fc" id="L54">        return new ResponseEntity(HttpStatus.ACCEPTED);</span>
+    }
+
+    //Agrego un usuario
+    @RequestMapping(value = &quot;/api/usuarios/&quot;, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity agregarUsuario(@RequestBody Usuario usuario){
+        try {
+<span class="fc" id="L61">            usuarioService.agregarUsuario(usuario);</span>
+<span class="fc" id="L62">            return new ResponseEntity(HttpStatus.CREATED);</span>
+<span class="nc" id="L63">        }catch (Exception e){</span>
+<span class="nc" id="L64">            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);</span>
+        }
+    }
+
+    //Listo un usuario por nombre
+    @RequestMapping(value = &quot;/api/usuarios&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity&lt;UsuarioWrapper&gt; getUsuarioByName(@RequestParam(&quot;nombre&quot;) String nombre){
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (usuarioService.listarUsuario(nombre) != null){</span>
+<span class="fc" id="L72">            UsuarioConverter conversor = new UsuarioConverter();</span>
+<span class="fc" id="L73">            UsuarioWrapper wrapper = conversor.convertir(usuarioService.listarUsuario(nombre));</span>
+<span class="fc" id="L74">            return new ResponseEntity&lt;UsuarioWrapper&gt;(wrapper, HttpStatus.OK);</span>
+        }else{
+<span class="fc" id="L76">            return new ResponseEntity(HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+    //Listo muchos usuarios
+    @RequestMapping(value = &quot;/api/usuarios/&quot;, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity&lt;List&lt;UsuarioWrapper&gt;&gt; getUsuarios(){
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (this.usuarioService.listarUsuarios().size() &gt; 0){</span>
+<span class="fc" id="L84">            UsuarioConverter conversor = new UsuarioConverter();</span>
+<span class="fc" id="L85">            List&lt;UsuarioWrapper&gt; wrappers = conversor.convertirLista(this.usuarioService.listarUsuarios());</span>
+<span class="fc" id="L86">            return new ResponseEntity&lt;List&lt;UsuarioWrapper&gt;&gt;(wrappers, HttpStatus.OK);</span>
+        }else{
+<span class="nc" id="L88">            return new ResponseEntity&lt;List&lt;UsuarioWrapper&gt;&gt;(HttpStatus.NO_CONTENT);</span>
+        }
+    }
+
+    //Borro un usuario
+    @RequestMapping(value = &quot;/api/usuarios/&quot;, method = RequestMethod.DELETE)
+    public ResponseEntity borrarUsuario(@RequestHeader int id){
+        try{
+<span class="fc" id="L96">            usuarioService.eliminarUsuario(id);</span>
+<span class="fc" id="L97">            return new ResponseEntity(HttpStatus.OK);</span>
+<span class="nc" id="L98">        }catch (Exception e){</span>
+<span class="nc" id="L99">            return new ResponseEntity(HttpStatus.NOT_FOUND);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
